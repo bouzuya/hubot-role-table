@@ -1,6 +1,6 @@
 {
   "name": "hubot-role-table",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A Hubot script to display roles in tabular form",
   "main": "index.js",
   "scripts": {
