@@ -17,10 +17,10 @@ module.exports = (robot) ->
     return unless robot?.brain?.data?.users
 
     # ['name1', 'name2']
-    users = robot.brain.data.users.map (u) -> u.name
+    users = (u.name for _, u of robot.brain.data.users)
 
     # {'role1': ['name1', 'name2']]
-    roles = robot.brain.data.users.reduce(((roles, user) ->
+    roles = (u for _, u of robot.brain.data.users).reduce(((roles, user) ->
       (user.roles || []).forEach (role) ->
         roles[role] = [] unless roles[role]?
         roles[role].push user.name
@@ -31,10 +31,10 @@ module.exports = (robot) ->
     rows = [
       [''].concat(users)
     ].concat(
-      Object.keys(roles).map (role) ->
+      Object.keys(roles).sort().map (role) ->
         [role].concat(
           users.map (user) ->
             if roles[role].indexOf(user) >= 0 then 'O' else ''
         )
     )
-    res.send table(rows, { align: ['l'].concat(users.map -> 'c') })
+    res.send table(rows, align: ['l'].concat(users.map -> 'c'))
